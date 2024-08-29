@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue Basics</title>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>Vue Events</h1>
+    </header>
+    <section id="events">
+      <h2>Events in Action</h2>
+      <button @click="increase(5)">Increase 5</button>
+      <button @click="decrease(5)">Decrease 5</button>
+      <p>Result: {{ counter }}</p>
+      <!-- <input type="text" @input="setName" :value="firstName" @keyup.enter="confirmName" /> -->
+      <!-- v-model directive replaces @input and :value directive-->
+      <div>
+        <label for="firstName">First name</label>
+        <input type="text" id="firstName" v-model="firstName" @keyup.enter="confirmName" />
+      </div>
+      <div>
+        <label for="lastName">Last name</label>
+        <input type="text" id="lastName" v-model="lastName" @keyup.enter="confirmName" />
+      </div>
+      <button type="button" @click="resetInput">Reset</button>
+      <p>Your first name:<br />{{ firstName }}</p>
+      <p>Your last name:<br />{{ lastName }}</p>
+      <p>Your full name:<br />{{ fullName }}</p>
+      <p>Your confirmed name:<br />{{ confirmedName }}</p>
+      <form @submit.prevent="submitForm">
+        <input type="text" />
+        <button type="submit">Submit</button>
+      </form>
+    </section>
+  </body>
+</html>
