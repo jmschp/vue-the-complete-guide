@@ -6,6 +6,7 @@ We can control several parts of our HTML page with Vue. for that we need to inst
 
 - [Vue docs - Creating a Vue Application](https://vuejs.org/guide/essentials/application.html)
 - [Vue docs- createApp()](https://vuejs.org/api/application.html#createapp)
+- [Vue docs - Reactivity Fundamentals](https://vuejs.org/guide/essentials/reactivity-fundamentals.html)
 
 ## Template Syntax
 
