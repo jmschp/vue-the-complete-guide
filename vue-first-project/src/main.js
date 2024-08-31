@@ -1,6 +1,12 @@
-import "./assets/main.css"
+// import "./assets/main.css"
 
 import { createApp } from "vue"
 import App from "./App.vue"
 
-createApp(App).mount("#app")
+import FriendContact from "./components/FriendContact.vue"
+
+const app = createApp(App)
+
+app.component("friend-contact", FriendContact)
+
+app.mount("#app")
