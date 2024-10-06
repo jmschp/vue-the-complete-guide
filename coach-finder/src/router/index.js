@@ -18,13 +18,13 @@ const router = createRouter({
       children: [
         {
           path: "contact",
-            component: ContactCoach
+          component: ContactCoach
         }
       ]
     },
     { path: "/register", component: CoachRegistration },
     { path: "/request", component: RequestReceived },
-    { path: "/:notFount(.*)", component: NotFound }
+    { path: "/:pathMatch(.*)*", component: NotFound }
   ]
 })
 

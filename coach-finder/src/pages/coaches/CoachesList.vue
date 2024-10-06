@@ -1,4 +1,7 @@
 <template>
+  <base-dialog :show="!!error" title="An error occurred!" @close="handleError">
+    <p>{{ error }}</p>
+  </base-dialog>
   <!-- Using a custom event for filters -->
   <!-- <coach-filters @change-filter="setFilters"></coach-filters> -->
 
@@ -8,10 +11,11 @@
   <section>
     <base-card>
       <div class="controls">
-        <base-button mode="outline">Refresh</base-button>
-        <base-button v-if="!isCoach" link to="/register">Register as Coach</base-button>
+        <base-button type="button" mode="outline" @click="loadCoachesList">Refresh</base-button>
+        <base-button v-if="!isLoading && !isCoach" link to="/register">Register as Coach</base-button>
       </div>
-      <ul v-if="hasCoaches">
+      <base-spinner v-if="isLoading"></base-spinner>
+      <ul v-else-if="!isLoading && hasCoaches">
         <coach-item
           v-for="coach in filteredCoaches"
           :key="coach.id"
@@ -29,7 +33,7 @@
 </template>
 
 <script>
-import { mapState } from "pinia"
+import { mapActions, mapState } from "pinia"
 import { useCoachesStore } from "@/stores/coaches"
 
 import CoachFilters from "@/components/coaches/CoachFilters.vue"
@@ -46,7 +50,9 @@ export default {
         backend: true,
         frontend: true,
         career: true
-      }
+      },
+      isLoading: true,
+      error: null
     }
   },
   computed: {
@@ -60,13 +66,30 @@ export default {
         return false
       })
     }
+  },
+  methods: {
+    ...mapActions(useCoachesStore, ["loadCoaches"]),
+    // Using a custom event for filters
+    //   setFilters(updatedFilters) {
+    //     this.activeFilters = updatedFilters
+    //   },
+    async loadCoachesList() {
+      try {
+        this.isLoading = true
+        await this.loadCoaches()
+      } catch (error) {
+        this.error = error.message
+      } finally {
+        this.isLoading = false
+      }
+    },
+    handleError() {
+      this.error = null
+    }
+  },
+  created() {
+    this.loadCoachesList()
   }
-  // Using a custom event for filters
-  // methods: {
-  //   setFilters(updatedFilters) {
-  //     this.activeFilters = updatedFilters
-  //   }
-  // }
 }
 </script>
 

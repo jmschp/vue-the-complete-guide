@@ -14,7 +14,6 @@ export default {
   components: {
     CoachForm
   },
-
   methods: {
     ...mapActions(useCoachesStore, ["registerCoach"]),
     saveData(coachData) {

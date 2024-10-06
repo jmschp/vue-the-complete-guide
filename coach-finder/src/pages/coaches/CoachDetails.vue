@@ -4,7 +4,7 @@
       <h2>{{ fullName }}</h2>
       <h3>{{ selectedCoach.hourlyRate }}</h3>
       <router-link to="/coaches/1/contact">Contact</router-link>
-      <router-view></router-view>
+      <!-- <router-view></router-view> -->
     </base-card>
   </section>
 
