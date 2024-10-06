@@ -1,5 +1,5 @@
 import { defineStore, acceptHMRUpdate } from "pinia"
-
+import { useAuthUserStore } from "./authUser"
 export const useCoachesStore = defineStore("coaches", {
   state: () => ({
     coaches: [
@@ -24,7 +24,12 @@ export const useCoachesStore = defineStore("coaches", {
     ]
   }),
   getters: {
-    hasCoaches: (state) => state.coaches && state.coaches.length > 0
+    hasCoaches: (state) => state.coaches && state.coaches.length > 0,
+    isCoach: (state) => {
+      const userId = useAuthUserStore().userId
+      console.log(userId)
+      return state.coaches.some((coach) => coach.id === userId)
+    }
   },
   actions: {
     registerCoach(coachData) {
