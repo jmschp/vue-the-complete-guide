@@ -23,12 +23,19 @@ export const useCoachesStore = defineStore("coaches", {
           "I am Julie and as a senior developer in a big tech company, I can help you get your first job or progress in your current role."
       }
     ],
+    lastFetch: null,
     loggedInUser: useAuthUserStore().userId
   }),
   getters: {
     hasCoaches: (state) => state.coaches && state.coaches.length > 0,
     isCoach: (state) => {
       return state.coaches.some((coach) => coach.id === state.loggedInUser)
+    },
+    shouldUpdate: (state) => {
+      if (!state.lastFetch) return true
+
+      const currentTimeStamp = new Date().getTime()
+      return (currentTimeStamp - state.lastFetch) / 1000 > 60
     }
   },
   actions: {
@@ -47,25 +54,29 @@ export const useCoachesStore = defineStore("coaches", {
       }
       this.coaches.push({ id: this.loggedInUser, ...coachData })
     },
-    async loadCoaches() {
+    async loadCoaches(refresh) {
+      if (!refresh && !this.shouldUpdate) return
+
       const response = await fetch(
         "https://vue-coach-6d9ee-default-rtdb.europe-west1.firebasedatabase.app/coaches.json"
       )
-      const responseData = await response.json()
-      if (!response.ok) {
-        throw new Error(responseData.message || "Failed to fetch data.")
-      }
 
-      for (const key in responseData) {
-        const coach = {
-          id: key,
-          firstName: responseData[key].firstName,
-          lastName: responseData[key].lastName,
-          hourlyRate: responseData[key].hourlyRate,
-          areas: responseData[key].areas,
-          description: responseData[key].description
+      if (!response.ok) {
+        throw new Error(response.statusText || "Failed to fetch data.")
+      } else {
+        const responseData = await response.json()
+        for (const key in responseData) {
+          const coach = {
+            id: key,
+            firstName: responseData[key].firstName,
+            lastName: responseData[key].lastName,
+            hourlyRate: responseData[key].hourlyRate,
+            areas: responseData[key].areas,
+            description: responseData[key].description
+          }
+          this.coaches.push(coach)
         }
-        this.coaches.push(coach)
+        this.lastFetch = new Date().getTime()
       }
     }
   }

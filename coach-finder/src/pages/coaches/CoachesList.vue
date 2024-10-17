@@ -1,35 +1,37 @@
 <template>
-  <base-dialog :show="!!error" title="An error occurred!" @close="handleError">
-    <p>{{ error }}</p>
-  </base-dialog>
-  <!-- Using a custom event for filters -->
-  <!-- <coach-filters @change-filter="setFilters"></coach-filters> -->
+  <div>
+    <base-dialog :show="!!error" title="An error occurred!" @close="handleError">
+      <p>{{ error }}</p>
+    </base-dialog>
+    <!-- Using a custom event for filters -->
+    <!-- <coach-filters @change-filter="setFilters"></coach-filters> -->
 
-  <!-- Using v-model for filters -->
-  <coach-filters v-model:filters="activeFilters"></coach-filters>
+    <!-- Using v-model for filters -->
+    <coach-filters v-model:filters="activeFilters"></coach-filters>
 
-  <section>
-    <base-card>
-      <div class="controls">
-        <base-button type="button" mode="outline" @click="loadCoachesList">Refresh</base-button>
-        <base-button v-if="!isLoading && !isCoach" link to="/register">Register as Coach</base-button>
-      </div>
-      <base-spinner v-if="isLoading"></base-spinner>
-      <ul v-else-if="!isLoading && hasCoaches">
-        <coach-item
-          v-for="coach in filteredCoaches"
-          :key="coach.id"
-          :id="coach.id"
-          :first-name="coach.firstName"
-          :last-name="coach.lastName"
-          :rate="coach.hourlyRate"
-          :areas="coach.areas"
-        >
-        </coach-item>
-      </ul>
-      <h2 v-else>No coaches</h2>
-    </base-card>
-  </section>
+    <section>
+      <base-card>
+        <div class="controls">
+          <base-button type="button" mode="outline" @click="loadCoachesList(true)">Refresh</base-button>
+          <base-button v-if="!isLoading && !isCoach" link to="/register">Register as Coach</base-button>
+        </div>
+        <base-spinner v-if="isLoading"></base-spinner>
+        <ul v-else-if="!isLoading && hasCoaches">
+          <coach-item
+            v-for="coach in filteredCoaches"
+            :key="coach.id"
+            :id="coach.id"
+            :first-name="coach.firstName"
+            :last-name="coach.lastName"
+            :rate="coach.hourlyRate"
+            :areas="coach.areas"
+          >
+          </coach-item>
+        </ul>
+        <h2 v-else>No coaches</h2>
+      </base-card>
+    </section>
+  </div>
 </template>
 
 <script>
@@ -73,10 +75,10 @@ export default {
     //   setFilters(updatedFilters) {
     //     this.activeFilters = updatedFilters
     //   },
-    async loadCoachesList() {
+    async loadCoachesList(refresh = false) {
       try {
         this.isLoading = true
-        await this.loadCoaches()
+        await this.loadCoaches(refresh)
       } catch (error) {
         this.error = error.message
       } finally {

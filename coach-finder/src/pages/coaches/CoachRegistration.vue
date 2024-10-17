@@ -17,6 +17,7 @@ export default {
   methods: {
     ...mapActions(useCoachesStore, ["registerCoach"]),
     saveData(coachData) {
+
       this.registerCoach(coachData)
       this.$router.replace("/coaches")
     }

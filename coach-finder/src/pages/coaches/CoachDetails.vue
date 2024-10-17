@@ -1,30 +1,32 @@
 <template>
-  <section>
-    <base-card>
-      <h2>{{ fullName }}</h2>
-      <h3>{{ selectedCoach.hourlyRate }}</h3>
-      <router-link to="/coaches/1/contact">Contact</router-link>
-      <!-- <router-view></router-view> -->
-    </base-card>
-  </section>
+  <div>
+    <section>
+      <base-card>
+        <h2>{{ fullName }}</h2>
+        <h3>{{ selectedCoach.hourlyRate }}</h3>
+        <router-link to="/coaches/1/contact">Contact</router-link>
+        <!-- <router-view></router-view> -->
+      </base-card>
+    </section>
 
-  <section>
-    <base-card>
-      <header>
-        <h2>Interested? Reach out now!</h2>
-        <base-button link :to="contactLink">Contact</base-button>
-      </header>
-      <router-view></router-view>
-    </base-card>
-  </section>
+    <section>
+      <base-card>
+        <header>
+          <h2>Interested? Reach out now!</h2>
+          <base-button link :to="contactLink">Contact</base-button>
+        </header>
+        <router-view></router-view>
+      </base-card>
+    </section>
 
-  <section>
-    <base-card>
-      <h2>Areas of Expertise</h2>
-      <base-badge v-for="area in selectedCoach.areas" :key="area" :type="area"></base-badge>
-      <p>{{ selectedCoach.description }}</p>
-    </base-card>
-  </section>
+    <section>
+      <base-card>
+        <h2>Areas of Expertise</h2>
+        <base-badge v-for="area in selectedCoach.areas" :key="area" :type="area"></base-badge>
+        <p>{{ selectedCoach.description }}</p>
+      </base-card>
+    </section>
+  </div>
 </template>
 
 <script>
