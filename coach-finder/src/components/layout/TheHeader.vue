@@ -4,12 +4,27 @@
       <h1><router-link to="/">The Header</router-link></h1>
       <ul>
         <li><router-link to="/coaches">Coaches</router-link></li>
-        <li><router-link to="/request">Requests</router-link></li>
+        <li v-if="isAuthenticated"><router-link to="/request">Requests</router-link></li>
+        <li v-if="!isAuthenticated"><router-link to="/auth">Login</router-link></li>
+        <li v-else><base-button @click="logout">Logout</base-button></li>
       </ul>
     </nav>
   </header>
 </template>
 
+<script>
+import { mapState, mapActions } from "pinia"
+import { useAuthUserStore } from "@/stores/authUser"
+
+export default {
+  computed: {
+    ...mapState(useAuthUserStore, ["isAuthenticated"])
+  },
+  methods: {
+    ...mapActions(useAuthUserStore, ["logout"])
+  }
+}
+</script>
 <style scoped>
 header {
   width: 100%;

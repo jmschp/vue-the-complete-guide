@@ -8,11 +8,30 @@
 </template>
 
 <script>
+import { mapState, mapActions } from "pinia"
+import { useAuthUserStore } from "@/stores/authUser"
+
 import TheHeader from "./components/layout/TheHeader.vue"
 
 export default {
   components: {
     TheHeader
+  },
+  computed: {
+    ...mapState(useAuthUserStore, ["didAutoLogout"])
+  },
+  methods: {
+    ...mapActions(useAuthUserStore, ["tryLogin"])
+  },
+  created() {
+    this.tryLogin()
+  },
+  watch: {
+    didAutoLogout(currentValue, newValue) {
+      if (currentValue !== newValue) {
+        this.$router.replace("/coaches")
+      }
+    }
   }
 }
 </script>

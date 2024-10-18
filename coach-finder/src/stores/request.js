@@ -24,8 +24,10 @@ export const useRequestStore = defineStore("requests", {
     },
     async fetchRequests() {
       const userId = useAuthUserStore().userId
+      const userToken = useAuthUserStore().token
+
       const response = await fetch(
-        `https://vue-coach-6d9ee-default-rtdb.europe-west1.firebasedatabase.app/requests.json?orderBy="coachId"&equalTo="${userId}"`
+        `https://vue-coach-6d9ee-default-rtdb.europe-west1.firebasedatabase.app/requests.json?auth=${userToken}&orderBy="coachId"&equalTo="${userId}"`
       )
 
       if (!response.ok) {

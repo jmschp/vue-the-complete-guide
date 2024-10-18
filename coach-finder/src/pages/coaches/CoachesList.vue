@@ -13,7 +13,8 @@
       <base-card>
         <div class="controls">
           <base-button type="button" mode="outline" @click="loadCoachesList(true)">Refresh</base-button>
-          <base-button v-if="!isLoading && !isCoach" link to="/register">Register as Coach</base-button>
+          <base-button v-if="isAuthenticated &&!isLoading && !isCoach" link to="/register">Register as Coach</base-button>
+          <base-button v-if="!isAuthenticated" link to="/auth?redirect=register">Login to Register as Coach</base-button>
         </div>
         <base-spinner v-if="isLoading"></base-spinner>
         <ul v-else-if="!isLoading && hasCoaches">
@@ -37,7 +38,7 @@
 <script>
 import { mapActions, mapState } from "pinia"
 import { useCoachesStore } from "@/stores/coaches"
-
+import { useAuthUserStore } from "@/stores/authUser"
 import CoachFilters from "@/components/coaches/CoachFilters.vue"
 import CoachItem from "@/components/coaches/CoachItem.vue"
 
@@ -59,6 +60,7 @@ export default {
   },
   computed: {
     ...mapState(useCoachesStore, ["coaches", "hasCoaches", "isCoach"]),
+    ...mapState(useAuthUserStore, ["isAuthenticated"]),
     filteredCoaches() {
       const coaches = this.coaches
       return coaches.filter((coach) => {

@@ -3,26 +3,7 @@ import { useAuthUserStore } from "./authUser"
 
 export const useCoachesStore = defineStore("coaches", {
   state: () => ({
-    coaches: [
-      {
-        id: "c1",
-        firstName: "Maximilian",
-        lastName: "Schwarzmüller",
-        hourlyRate: 30,
-        areas: ["frontend", "backend", "career"],
-        description:
-          "I'm Maximilian and I've worked as a freelance web developer for years. Let me help you become a developer as well!"
-      },
-      {
-        id: "c2",
-        firstName: "Julie",
-        lastName: "Jones",
-        hourlyRate: 30,
-        areas: ["frontend", "career"],
-        description:
-          "I am Julie and as a senior developer in a big tech company, I can help you get your first job or progress in your current role."
-      }
-    ],
+    coaches: [],
     lastFetch: null,
     loggedInUser: useAuthUserStore().userId
   }),
@@ -40,8 +21,9 @@ export const useCoachesStore = defineStore("coaches", {
   },
   actions: {
     async registerCoach(coachData) {
+      const userToken = useAuthUserStore().token
       const response = await fetch(
-        `https://vue-coach-6d9ee-default-rtdb.europe-west1.firebasedatabase.app/coaches/${this.loggedInUser}.json`,
+        `https://vue-coach-6d9ee-default-rtdb.europe-west1.firebasedatabase.app/coaches/${this.loggedInUser}.json?auth=${userToken}`,
         {
           method: "PUT",
           body: JSON.stringify(coachData)
