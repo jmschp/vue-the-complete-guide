@@ -23,7 +23,7 @@ export const useCoachesStore = defineStore("coaches", {
     async registerCoach(coachData) {
       const userToken = useAuthUserStore().token
       const response = await fetch(
-        `https://vue-coach-6d9ee-default-rtdb.europe-west1.firebasedatabase.app/coaches/${this.loggedInUser}.json?auth=${userToken}`,
+        "", // Add Firebase URL here
         {
           method: "PUT",
           body: JSON.stringify(coachData)
@@ -40,7 +40,7 @@ export const useCoachesStore = defineStore("coaches", {
       if (!refresh && !this.shouldUpdate) return
 
       const response = await fetch(
-        "https://vue-coach-6d9ee-default-rtdb.europe-west1.firebasedatabase.app/coaches.json"
+        "" // Add Firebase URL here
       )
 
       if (!response.ok) {

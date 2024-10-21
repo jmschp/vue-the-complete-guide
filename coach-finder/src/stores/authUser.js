@@ -31,10 +31,9 @@ export const useAuthUserStore = defineStore("authUser", {
       clearTimeout(timer)
     },
     async auth(email, password, mode) {
-      let url =
-        "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAZYpvNgpkIMIEZLMiq9JjgbCSB0-nt4ZM"
+      let url = "" // Add Firebase login URL here
       if (mode === "signup") {
-        url = "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAZYpvNgpkIMIEZLMiq9JjgbCSB0-nt4ZM"
+        url = "" // Add Firebase signup URL here
       }
 
       const response = await fetch(url, {

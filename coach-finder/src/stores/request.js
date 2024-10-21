@@ -13,7 +13,7 @@ export const useRequestStore = defineStore("requests", {
   actions: {
     async addRequest(request) {
       const response = await fetch(
-        `https://vue-coach-6d9ee-default-rtdb.europe-west1.firebasedatabase.app/requests.json`,
+        "", // Add Firebase URL here
         { method: "POST", body: JSON.stringify(request) }
       )
 
@@ -27,7 +27,7 @@ export const useRequestStore = defineStore("requests", {
       const userToken = useAuthUserStore().token
 
       const response = await fetch(
-        `https://vue-coach-6d9ee-default-rtdb.europe-west1.firebasedatabase.app/requests.json?auth=${userToken}&orderBy="coachId"&equalTo="${userId}"`
+        "", // Add Firebase URL here
       )
 
       if (!response.ok) {
